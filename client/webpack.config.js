@@ -18,7 +18,16 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-      
+      // Webpack plugin that generates html file and injects bundles
+      new HtmlWebpackPlugin({
+        template: './index.html',
+        title: 'Text Editor'
+      }),
+      // Injects custom service worker
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'src-sw.js',
+      }),
     ],
 
     module: {
@@ -31,7 +40,7 @@ module.exports = () => {
         {
           test: /\.m?js$/,
           exclude: /node_modules/,
-          // We use babel-loader in order to use ES6.
+          // Utilizes babel-loader in order to use ES6
           use: {
             loader: 'babel-loader',
             options: {
